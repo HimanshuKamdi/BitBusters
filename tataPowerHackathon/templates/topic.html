@@ -12,13 +12,27 @@
                 value="{{ search_query }}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        {% for video in (videos) %}
-        <li class="list-group-item">
+        <div class="container" style="display: flex; flex-wrap: wrap; ">
+            {% for video in (videos) %}
+        <!-- <li class="list-group-item">
             <h5>{{ video['title'] }}</h5>
-            <p>{{ video['description'] }}</p>
+            <p>{{ video['desc'] }}</p>
+            
             <a href="{{ url_for('video', video_id=video['id']) }}" class="btn btn-primary float-right">Details</a>
-        </li>
+        </li> -->
+        <div class="card" style="width: 18rem; margin: 30px;">
+            <img class="card-img-top" src="{{ video['img'] }}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{ video['title'] }}</h5>
+              <p class="card-text">{{ video['desc'] }}</p>
+              <span>Views: {{ video['views'] }}</span>
+              <span>Likes: {{ video['likes'] }}</span>
+              <span>Comments: {{ video['comments'] }}</span>
+              <a href="{{ url_for('video', video_id=video['id']) }}" class="btn btn-primary float-right">Details</a>
+            </div>
+          </div>
         {% endfor %}
+        </div>
     </ul>
 </div>
 

@@ -62,6 +62,45 @@ def get_avg_views_per_topic():
 
         scores.append(sum/10)
     return scores
+def get_avg_likes_per_topic():
+    scores=[]
+    for i in range(10):
+        with open(f"./data/Cache/{i}.json","r") as f:
+            data=json.load(f)
+
+        sum=0
+        count=0
+        for i in range(min(10,len(data))):
+            data[i]["items"]
+            if "likeCount" in data[i]["items"][0]["statistics"].keys():
+                sum+=int(data[i]["items"][0]["statistics"]["likeCount"])
+                count+=1
+        if count==0:
+            scores.append(0)
+        else:
+            scores.append(sum/10)
+
+    return scores
+
+def get_avg_comments_per_topic():
+    scores=[]
+    for i in range(10):
+        with open(f"./data/Cache/{i}.json","r") as f:
+            data=json.load(f)
+
+        sum=0
+        count=0
+        for i in range(min(10,len(data))):
+            data[i]["items"]
+            if "commentCount" in data[i]["items"][0]["statistics"].keys():
+                sum+=int(data[i]["items"][0]["statistics"]["commentCount"])
+                count+=1
+        if count==0:
+            scores.append(0)
+        else:
+            scores.append(sum/10)
+    return scores
+    
 def find_best_match(input_query,topics):
     input_query=input_query.lower()
     tfidf_vectorizer = TfidfVectorizer()
@@ -76,7 +115,9 @@ def find_best_match(input_query,topics):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    scores=get_avg_views_per_topic()
+    views_scores=get_avg_views_per_topic()
+    like_scores=get_avg_likes_per_topic()
+    comment_scores=get_avg_comments_per_topic()
     search_query = request.form.get('search_query')
     print(search_query)
     small_topics=[x.lower() for x in topics]
@@ -92,17 +133,64 @@ def home():
     data1 = [
         go.Bar(
             x=topics,
-            y=scores
+            y=views_scores
+        )
+    ]
+    data2 = [
+        go.Bar(
+            x=topics,
+            y=like_scores
+        )
+    ]
+    data3 = [
+        go.Bar(
+            x=topics,
+            y=comment_scores
         )
     ]
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('home.html', videos=videos, graphJSON1=graphJSON1)
+    graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON3 = json.dumps(data3, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('home.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,graphJSON3=graphJSON3)
 
 
 @app.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
 def topic(topic_id):
+    top_few=[]
+    with open(f'./data/Cache/{topic_id}.json', 'r') as f:
+        data = json.load(f)
+    for vid in data[:5]:
+        id=vid["items"][0]["id"]
+        if "title" in vid["items"][0]["snippet"].keys():
+            title=vid["items"][0]["snippet"]["title"]
+        else:
+            title=None
+        if "description" in vid["items"][0]["snippet"].keys():
+            desc=vid["items"][0]["snippet"]["description"][:min(100,len(vid["items"][0]["snippet"]["description"]))]+"...."
+        else:
+            desc=None
+        if "thumbnails" in vid["items"][0]["snippet"].keys():
+            img=vid["items"][0]["snippet"]["thumbnails"]["medium"]["url"]
+        else:
+            img=None
+        
+        if "viewCount" in vid["items"][0]["statistics"].keys():
+            viewCount=vid["items"][0]["statistics"]["viewCount"]
+        else:
+            viewCount=None
+        if "likeCount" in vid["items"][0]["statistics"].keys():
+            likeCount=vid["items"][0]["statistics"]["likeCount"]
+        else:
+            likeCount=None
+        
+        if "commentCount" in vid["items"][0]["statistics"].keys():
+            commentCount=vid["items"][0]["statistics"]["commentCount"]
+        else:
+            commentCount=None
+        
+        top_few.append({"id":id,"title":title,"desc":desc,"img":img,"views":viewCount,"likes":likeCount,"comments":commentCount})
     
-    
+    videos=top_few
     with open(f'./data/Cache/{topic_id}tags.pkl', 'rb') as f:
         tags = pickle.load(f)
     
@@ -131,7 +219,7 @@ def topic(topic_id):
     return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2)
 
 
-@app.route('/video/<int:video_id>')
+@app.route('/video/<string:video_id>')
 def video(video_id):
     if 0 <= video_id < len(videos):
         data1 = [

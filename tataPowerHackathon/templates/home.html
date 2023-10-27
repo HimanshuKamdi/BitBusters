@@ -1,6 +1,5 @@
-{% extends "base.html" %} 
-{% block content_title %} Welcome to the Home Page {%endblock %} 
-{% block content %}
+{% extends "base.html" %} {% block content_title %} Welcome to the Home Page
+{%endblock %} {% block content %}
 <ul class="list-group">
   <form method="post" class="form-inline my-2 my-lg-0">
     <input
@@ -16,11 +15,25 @@
   </form>
 </ul>
 <!-- Add a container for the bar chart -->
-<div id="bar-chart" style="width: 900px; height: 600px"></div>
+<div style="display: flex; flex-wrap: wrap; width: 90vw;">
+  <div id="views-chart"></div>
+  <div id="likes-chart"  ></div>
+  <div id="comments-chart"  ></div>
+</div>
 
 <script>
   // Retrieve the JSON data for the bar chart
-  var barChartData = {{ graphJSON1|safe }};
+  var plot_data1 = {{ graphJSON1|safe }};
+  var layout = { title: 'Avg Views Per topic', autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('views-chart', plot_data1, layout);
+
+  var plot_data2 = {{ graphJSON2|safe }};
+  var layout = { title: 'Avg Likes Per topic', autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('likes-chart', plot_data2, layout);
+
+  var plot_data3 = {{ graphJSON3|safe }};
+  var layout = { title: 'Avg Comments Per topic', autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('comments-chart', plot_data3, layout);
 
   // Plot the bar chart using Plotly.js
   Plotly.newPlot('bar-chart', barChartData);
