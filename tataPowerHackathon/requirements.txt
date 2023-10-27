@@ -11,14 +11,13 @@ requests-oauthlib==1.3.1
 SQLAlchemy==2.0.6
 sqlparse==0.4.4
 WTForms==3.0.1
-bertopic
 scipy==1.10.1
 sentence-transformers
 nltk==3.8.1
 spacy==3.5.1
 spacy-legacy==3.0.12
 spacy-loggers==1.0.4
-autocorrect
 hyperopt
 Werkzeug==2.2.2
 scikit-learn==1.2.1
+wordcloud==1.9.2

@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import plotly
 import plotly.graph_objs as go
 import plotly.express as px
 import json
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+import numpy as np
+import json
+import pickle
 app = Flask(__name__)
 
 videos = [
@@ -42,27 +48,87 @@ videos = [
         'views': 150
     }
 ]
+topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy"]
+def get_avg_views_per_topic():
+    scores=[]
+    for i in range(10):
+        with open(f"./data/Cache/{i}.json","r") as f:
+            data=json.load(f)
 
+        sum=0
+        for i in range(min(10,len(data))):
+            data[i]["items"]
+            sum+=int(data[i]["items"][0]["statistics"]["viewCount"])
+
+        scores.append(sum/10)
+    return scores
+def find_best_match(input_query,topics):
+    input_query=input_query.lower()
+    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_matrix = tfidf_vectorizer.fit_transform([input_query] + topics)
+    cosine_similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
+
+    # Find the topic with the highest similarity
+    max_index = cosine_similarities.argmax()
+    max_score = cosine_similarities[max_index]
+    matched_topic = topics[max_index]
+    return [max_score,max_index]
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    scores=get_avg_views_per_topic()
     search_query = request.form.get('search_query')
+    print(search_query)
+    small_topics=[x.lower() for x in topics]
+    if search_query is not None:
+        res=find_best_match(search_query,small_topics)
+        print(res[0],res[1])
+        if res[0]<0.35:
+            print("Nothing Found")
+        else:
+            print(f"Matched with {topics[res[1]]}")
+            return redirect(url_for('topic',topic_id=res[1]))
+    
     data1 = [
         go.Bar(
-            y=["Topic1", "Topic2", "Topic3", "Topic4"],
-            x=[45.2, 19.1, 19.5, 16.2],
-            orientation='h'
+            x=topics,
+            y=scores
+        )
+    ]
+    graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('home.html', videos=videos, graphJSON1=graphJSON1)
+
+
+@app.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
+def topic(topic_id):
+    
+    
+    with open(f'./data/Cache/{topic_id}tags.pkl', 'rb') as f:
+        tags = pickle.load(f)
+    
+    df_topic_model=pd.read_csv(f"./data/Cache/{topic_id}topicmodel.csv")
+    df_topic_model.columns=["Topic","Presence%"]
+
+    tags= dict(sorted(tags.items(), key=lambda item: item[1],reverse=True))
+    df_tags=pd.Series(tags)
+    top_tags=df_tags[:min(len(df_tags),10)]
+
+    data1 = [
+        go.Bar(
+            y=top_tags,
+            x=top_tags.index
         )
     ]
     data2 = [
         go.Bar(
-            x=["Vid1", "Vid2", "Vid3", "Vid4"],
-            y=[43, 21, 19, 16],
+            y=df_topic_model['Topic'],
+            x=df_topic_model['Presence%'],
+            orientation='h',
         )
     ]
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('home.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2, search_query=search_query)
+    return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2)
 
 
 @app.route('/video/<int:video_id>')
