@@ -20,3 +20,5 @@ nltk==3.8.1
 spacy==3.5.1
 spacy-legacy==3.0.12
 spacy-loggers==1.0.4
+autocorrect
+hyperopt
