@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
-{% block content_title %}YouTube Video List{% endblock %}
+
+
+<div class="success">
+{% block content_title %}<p class="text-center mt-4 success" >YouTube Video List</p>{% endblock %}
 
 {% block content %}
 <ul class="list-group">
@@ -17,7 +20,9 @@
     </li>
     {% endfor %}
 </ul>
-<h2>We Analyze Topics Over 100 vids...</h2>
+</div>
+
+<h2 class="text-center mt-4" >We Analyze Topics Over 100 vids...</h2>
 <div id="topic-chart"></div>
 <div id="clickthru-chart"></div>
 <div id="like-chart"></div>
