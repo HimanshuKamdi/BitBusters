@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content_title %}YouTube Video List{% endblock %}
+
+{% block content %}
+<ul class="list-group">
+    <form method="post" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" name="search_query" placeholder="Search"
+            value="{{ search_query }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    {% for video in (videos) %}
+    <li class="list-group-item">
+        <h5>{{ video['title'] }}</h5>
+        <p>{{ video['description'] }}</p>
+        <a href="{{ url_for('video', video_id=video['id']) }}" class="btn btn-primary float-right">Details</a>
+    </li>
+    {% endfor %}
+</ul>
+<h2>We Analyze Topics Over 100 vids...</h2>
+<div id="topic-chart"></div>
+<div id="clickthru-chart"></div>
+<div id="like-chart"></div>
+<script>
+    var plot_data1 = {{ graphJSON1 | safe }};
+    var layout = { title: 'Topic Distribution', autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('topic-chart', plot_data1, layout);
+
+    var plot_data2 = {{ graphJSON2 | safe }};
+    var layout = { title: 'Click Rate Per Video',autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('clickthru-chart', plot_data2, layout);
+</script>
+{% endblock %}

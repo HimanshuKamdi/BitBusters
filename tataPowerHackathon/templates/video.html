@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content_title %}{{ video['title'] }}{% endblock %}
+
+{% block content %}
+<p>{{ video['description'] }}</p>
+<a href="{{ video['url'] }}" class="btn btn-primary">Watch on YouTube</a>
+
+<h2>We Analyze Sentiments of Comments</h2>
+<div id="sentiment-chart"></div>
+<h2>We Analyze Topics In the Comments</h2>
+<div id="topic-chart"></div>
+<h3>The People Who Have Engaged With this Video have also liked the following Topics:</h3>
+<div>
+    <ul>
+        <li>Solar Power</li>
+        <li>Wind Energy</li>
+        <li>Hydro Electricity</li>
+    </ul>
+</div>
+<script>
+    var plot_data1 = {{ graphJSON1 | safe }};
+    var layout = { autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('sentiment-chart', plot_data1, layout);
+
+    var plot_data2 = {{ graphJSON2 | safe }};
+    var layout = { autosize: false, width: 600, height: 400 };
+    Plotly.newPlot('topic-chart', plot_data2, layout);    
+
+</script>
+{% endblock %}
