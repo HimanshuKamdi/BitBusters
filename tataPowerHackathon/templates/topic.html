@@ -14,12 +14,6 @@
         </form>
         <div class="container" style="display: flex; flex-wrap: wrap; ">
             {% for video in (videos) %}
-        <!-- <li class="list-group-item">
-            <h5>{{ video['title'] }}</h5>
-            <p>{{ video['desc'] }}</p>
-            
-            <a href="{{ url_for('video', video_id=video['id']) }}" class="btn btn-primary float-right">Details</a>
-        </li> -->
         <div class="card" style="width: 18rem; margin: 30px;">
             <img class="card-img-top" src="{{ video['img'] }}" alt="Card image cap">
             <div class="card-body">
@@ -28,7 +22,7 @@
               <span>Views: {{ video['views'] }}</span>
               <span>Likes: {{ video['likes'] }}</span>
               <span>Comments: {{ video['comments'] }}</span>
-              <a href="{{ url_for('video', video_id=video['id']) }}" class="btn btn-primary float-right">Details</a>
+              <a href="{{ url_for('video', video_id=video['id'], topic_id=topic_id) }}" class="btn btn-primary float-right">Details</a>
             </div>
           </div>
         {% endfor %}

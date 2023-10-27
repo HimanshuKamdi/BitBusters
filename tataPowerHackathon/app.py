@@ -9,6 +9,9 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import os
 app = Flask(__name__)
 
 videos = [
@@ -216,30 +219,49 @@ def topic(topic_id):
     ]
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2)
+    return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,topic_id=topic_id)
 
 
-@app.route('/video/<string:video_id>')
-def video(video_id):
-    if 0 <= video_id < len(videos):
-        data1 = [
+def gen_word_cloud(key,data):
+    obj=data[key]
+    comments=""
+    if "items" in obj.keys():
+        for item in obj["items"]:
+            comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+
+    wordcloud = WordCloud(width = 400, height = 400, 
+                background_color ='white', 
+                stopwords = None, 
+                min_font_size = 10).generate(comments)
+    image_path = "static/wordcloud.png"
+    wordcloud.to_file(image_path)
+    
+
+
+@app.route('/video/<int:topic_id>/<string:video_id>')
+def video(topic_id,video_id):
+    with open(f"./data/Cache/{topic_id}_video_sentanal.json","r") as f:
+        sentiments=json.load(f)
+    sentiment=sentiments[video_id]
+    print(sentiment)
+    file='./static/wordcloud.png'
+    if os.path.exists(file):
+        os.remove(file)
+        
+    with open(f"./data/Cache/{topic_id}_comments.json","r") as f:
+        data=json.load(f)
+
+    gen_word_cloud(video_id,data)
+    data1 = [
             go.Pie(
-                labels=["Negative Comments", "Positive Comments"],
-                values=[43.2, 57.8]
+                labels=list(sentiment.keys()),
+                values=list(sentiment.values())
             )
         ]
-        data2 = [
-            go.Bar(
-                y=["Topic1", "Topic2", "Topic3", "Topic4"],
-                x=[43.2, 21.1, 19.5, 16.2],
-                orientation='h'
-            )
-        ]
-        graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
-        graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('video.html', video=videos[video_id], graphJSON1=graphJSON1,graphJSON2=graphJSON2)
-    else:
-        return "Video not found"
+    
+    graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
+  
+    return render_template('video.html',graphJSON1=graphJSON1,title="Analytics for this Video")
 
 
 if __name__ == '__main__':
