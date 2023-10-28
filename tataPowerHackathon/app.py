@@ -15,46 +15,10 @@ import os
 import googleapiclient.discovery
 import requests
 app = Flask(__name__)
-API_KEY = "AIzaSyDN8fDz5RO83ESiCTu4cQXp8QrWfJJtycg"
+API_KEY = "AIzaSyBlH7Gxfh4HivHborRzImVSwzUSdUxmnEg"
 base_url = "https://www.googleapis.com/youtube/v3/"
 youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
-videos = [
-    {
-        'id': 1,
-        'title': 'Video 1',
-        'description': 'Description for Video 1',
-        'url': 'https://www.youtube.com/watch?v=video1',
-        'views': 1500
-    },
-    {
-        'id': 2,
-        'title': 'Video 2',
-        'description': 'Description for Video 2',
-        'url': 'https://www.youtube.com/watch?v=video2',
-        'views': 3500
-    },
-    {
-        'id': 3,
-        'title': 'Video 3',
-        'description': 'Description for Video 3',
-        'url': 'https://www.youtube.com/watch?v=video2',
-        'views': 2500
-    },
-    {
-        'id': 4,
-        'title': 'Video 4',
-        'description': 'Description for Video 4',
-        'url': 'https://www.youtube.com/watch?v=video2',
-        'views': 500
-    },
-    {
-        'id': 5,
-        'title': 'Video 5',
-        'description': 'Description for Video 5',
-        'url': 'https://www.youtube.com/watch?v=video2',
-        'views': 150
-    }
-]
+
 topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy","EV Electric Vehicle","Solar Panels"]
 def get_avg_views_per_topic():
     scores=[]
@@ -160,7 +124,7 @@ def home():
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON3 = json.dumps(data3, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('home.html', videos=videos, graphJSON1=graphJSON1, graphJSON2=graphJSON2,graphJSON3=graphJSON3)
+    return render_template('home.html', graphJSON1=graphJSON1, graphJSON2=graphJSON2,graphJSON3=graphJSON3)
 
 
 @app.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
@@ -251,6 +215,8 @@ video_title=""
 
 @app.route('/video/<int:topic_id>/<string:video_id>')
 def video(topic_id,video_id):
+    with open(f'./data/Cache/{topic_id}.json', 'r') as f:
+        data = json.load(f)
     with open(f"./data/Cache/{topic_id}_video_sentanal.json","r") as f:
         sentiments=json.load(f)
     sentiment=sentiments[video_id]
@@ -272,7 +238,7 @@ def video(topic_id,video_id):
     
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
   
-    return render_template('video.html',graphJSON1=graphJSON1,title=f"Analytics for {video_title}")
+    return render_template('video.html',graphJSON1=graphJSON1,title=f"Analytics for {video_title}",  )
 
 
 

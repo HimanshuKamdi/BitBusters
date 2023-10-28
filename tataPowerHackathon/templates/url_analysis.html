@@ -1,32 +1,37 @@
 {% extends "base.html" %} {% block content_title %} Enter a URL for Analytics
 {%endblock %} {% block content %}
 <ul class="list-group">
-  <form method="post" class="form-inline my-2 my-lg-0">
-    <input
-      class="form-control mr-sm-2"
-      type="text"
-      name="search_query"
-      placeholder="Search"
-      value="{{ search_query }}"
-    />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-      Search
-    </button>
-  </form>
+  <div style="width:100%; text-align:center; display: flex;  justify-content: center;margin-bottom:50px">
+    <form method="post" class="form-inline my-2 my-lg-0" >
+      <input
+        class="form-control mr-sm-2 my-4 "
+        style="width: 500px;"
+        type="text"
+        name="search_query"
+        placeholder="Search"
+        value="{{ search_query }}"
+      />
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
+  </div>
 </ul>
 <div>
   {% if stats is not none %}
-  <h2>Current View Count: {{ stats['statistics'].get('viewCount', 'N/A') }}</h2>
-  <h2>Current Like Count: {{ stats['statistics'].get('likeCount', 'N/A') }}</h2>
-  <h2>
-    Current Comment Count: {{ stats['statistics'].get('commentCount', 'N/A') }}
-  </h2>
-  <h2>Favorites: {{ stats['statistics'].get('favoriteCount', 'N/A') }}</h2>
+  <div><h1 style="text-align:center;margin-top:50px; margin-bottom:30px; font-size:50px; font-family: 'Roboto Slab', serif; padding:10px; ">Currents Statistics</h1></div>
+  <div><span>Views : {{ stats['statistics'].get('viewCount', 'N/A') }}</span>
+    <span>Likes : {{ stats['statistics'].get('likeCount', 'N/A') }}</span>
+  </div>
+  <div><span>
+    Comments : {{ stats['statistics'].get('commentCount', 'N/A') }}
+  </span>
+  <span>Favorites: {{ stats['statistics'].get('favoriteCount', 'N/A') }}</span></div>
   {% else %}
-  <h2>No statistics available</h2>
+  <h2 style="padding:20px">No statistics available</h2>
   {% endif %}
 </div>
-<h2>People Who have Commented on your Video have also Engaged with:</h2>
+<div class="one"><h1 style="text-align:center;margin-top:50px; margin-bottom:30px; font-size:40px; font-family: 'Roboto Slab', serif; padding:10px; ">People Who have Commented on your Video have also watched:</h1></div>
 <div>
   <div>
     {% if res is not none %} 
@@ -43,7 +48,7 @@
     </ul>
     {% endfor %} 
     {% else %}
-    <p>No data available</p>
+    <p style="padding:20px">No data available</p>
     {% endif %}
     
   </div>
