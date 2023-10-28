@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
 <div class="success">
-    {% block content_title %}
-    <p class="text-center mt-4 success">Top Videos on "{{search_query}}"</p>
-    {% endblock %}
-
     {% block content %}
+    <h2 class="text-center mt-4">Popular Tags for "{{search_query}}"</h2>
+    <div id="topic-chart" style="display: flex;justify-content: center;" class="text-center"></div>
+    <div id="clickthru-chart" style="display: flex;justify-content: center;"  class="text-center"></div>
+    <div id="like-chart" class="text-center"></div>
     <ul class="list-group" style="margin-top:80px">
         
         <div class="container" style="display: flex; flex-wrap: wrap; ">
+<h1 class="text-center mt-4 success">Top Videos on "{{search_query}}"</h1>
+
             {% for video in (videos) %}
         <div class="card" style="width: 70rem; margin: 30px; display:flex; flex-direction:row; border-radius:15px">
             <div>
@@ -31,17 +33,13 @@
     </ul>
 </div>
 
-<h2 class="text-center mt-4">Popular Tags</h2>
-<div id="topic-chart" style="display: flex;justify-content: center;" class="text-center"></div>
-<div id="clickthru-chart" style="display: flex;justify-content: center;"  class="text-center"></div>
-<div id="like-chart" class="text-center"></div>
 <script>
     var plot_data1 = {{ graphJSON1 | safe }};
-    var layout = { title: 'Topic Distribution', autosize: false, width: 600, height: 400 };
+    var layout = { title: 'Topic Distribution', autosize: false, width: 900, height: 600 };
     Plotly.newPlot('topic-chart', plot_data1, layout);
 
     var plot_data2 = {{ graphJSON2 | safe }};
-    var layout = { title: 'Trending Topic Analysis', autosize: false, width: 800, height: 400,xaxis: {
+    var layout = { title: 'Trending Topic Analysis', autosize: false, width: 900, height: 600,xaxis: {
             automargin: true
         },
         yaxis: {

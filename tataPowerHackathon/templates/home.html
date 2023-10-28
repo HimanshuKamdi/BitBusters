@@ -6,6 +6,9 @@
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; z-index: 1; font-family: 'Abril Fatface', serif;
     , serif; text-align:center; font-size:40px"><p style="font-size:60px">Youtube AlgoAnalyzer</p> <p >Renewable & Sustainable Future:</p> <p> Beyond the Videos</p></div>
   </div>
+
+  <h1 style="text-align:center;margin-top:20px">Trending Topics</h1>
+
   <div style="width:100%; text-align:center; display: flex;  justify-content: center;">
     <form method="post" class="form-inline my-2 my-lg-0" >
       <input
@@ -84,15 +87,30 @@
 <script>
   // Retrieve the JSON data for the bar chart
   var plot_data1 = {{ graphJSON1|safe }};
-  var layout = { title: 'Avg Views Per topic', autosize: false, width: 600, height: 400 };
+  var layout = { title: 'Avg Views Per topic', autosize: false, width: 600, height: 400,xaxis: {
+    automargin: true
+},
+yaxis: {
+    automargin: true
+} };
     Plotly.newPlot('views-chart', plot_data1, layout);
 
   var plot_data2 = {{ graphJSON2|safe }};
-  var layout = { title: 'Avg Likes Per topic', autosize: false, width: 600, height: 400 };
+  var layout = { title: 'Avg Likes Per topic', autosize: false, width: 600, height: 400,xaxis: {
+    automargin: true
+},
+yaxis: {
+    automargin: true
+} };
     Plotly.newPlot('likes-chart', plot_data2, layout);
 
   var plot_data3 = {{ graphJSON3|safe }};
-  var layout = { title: 'Avg Comments Per topic', autosize: false, width: 600, height: 400 };
+  var layout = { title: 'Avg Comments Per topic', autosize: false, width: 600, height: 400,xaxis: {
+    automargin: true
+},
+yaxis: {
+    automargin: true
+} };
     Plotly.newPlot('comments-chart', plot_data3, layout);
 
   // Plot the bar chart using Plotly.js
