@@ -34,7 +34,7 @@
     <ul>
       {% for video in videos %} {% if video.get('title') and
       video.get('channel') %}
-      <li>Title: {{ video['title'] }} | Channel: {{ video['channel'] }}</li>
+      <li>Title: {{ video['title'] }} | User: {{ video['channel'] }}</li>
       {% endif %} {% endfor %}
     </ul>
     {% endfor %} 
