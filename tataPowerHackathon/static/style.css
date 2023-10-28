@@ -124,6 +124,38 @@ section h1 {
     opacity: 0;
   }
 }
-
-
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  /* font-family: "Raleway", sans-serif; */
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+.one h1:before {
+  width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: #61BF09;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #61BF09;
+}
 

@@ -4,20 +4,36 @@
 
 {% block content %}
 
-<h2 style="text-align: center;">We Analyze Sentiments of Comments</h2>
-<div style="display: flex; justify-content: center;" id="sentiment-chart"></div>
-<h2 style="text-align: center;">We Analyze Topics In the Comments</h2>
-<div id="topic-chart" style="display: flex; justify-content: center;">
-    <img src="{{url_for('static', filename='wordcloud.png' )}}" alt="Word Cloud">
-</div>
 
 
+<div class="row" >
+    <div class="col-sm-6 mb-3 mb-sm-0 " style="margin-top:30px">
+      <div class="card border-0" >
+        <div class="card-body" data-aos="fade-right">
+            <h2 style="text-align: center;">Sentiment Analysis of Comments</h2>
+            <div style="display: flex; justify-content: center;" id="sentiment-chart"></div>
+          </div>
+      </div>
+    </div>
+    <div class="col-sm-6 d-flex align-items-center justify-content-center my-4" style="margin-top:30px" >
+        <div class="card border-0">
+            <div class="card-body" data-aos="fade-left">
+                <div id="topic-chart" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                    <h2 style="text-align: center; margin-bottom: 30px;">Major Topics in the comments</h2>
+                    <img src="{{url_for('static', filename='wordcloud.png' )}}" alt="Word Cloud" style="height:600px; weight:800px">
+                </div>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 
 <script>
     var plot_data1 = {{ graphJSON1 | safe }};
     
-    var layout = { autosize: false, width: 600, height: 400 };
+    var layout = { autosize: false, width: 800, height: 600 };
     Plotly.newPlot('sentiment-chart', plot_data1, layout);
 
 </script>
