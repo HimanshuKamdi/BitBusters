@@ -23,26 +23,63 @@
   </div>
 </ul>
 <!-- Add a container for the bar chart -->
-<div style="display: flex; flex-wrap: wrap; width: 90vw; flex-direction:column; align-items: center">
-  <div id="views-chart"></div>
-  <div id="likes-chart"  ></div>
-  <div id="comments-chart"  ></div>
+
+
+<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card border-0">
+      <div class="card-body">
+        <div id="views-chart"></div>
+        </div>
+    </div>
+  </div>
+  <div class="col-sm-6 d-flex align-items-center justify-content-center" >
+    <div class="card border-0">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<section class="hero-area bg-white">
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-6 my-auto">
-        <h1 class="text-primary font-tertiary">Image text </h1>
+<div class="row">
+  <div class="col-sm-6 d-flex align-items-center justify-content-center">
+    <div class="card border-0">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
       </div>
-      <div class="col-6 mobile-img" >
-         <div id="views-chart"></div>
+    </div>
+  </div>
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card border-0">
+      <div class="card-body">
+        <div id="likes-chart"  ></div>
       </div>
-
     </div>
   </div>
 
-</section>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card border-0">
+      <div class="card-body">
+        <div id="comments-chart"  ></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 d-flex align-items-center justify-content-center">
+    <div class="card border-0">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
   // Retrieve the JSON data for the bar chart
