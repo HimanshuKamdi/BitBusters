@@ -168,3 +168,46 @@ h1 {
   .bullet-list li {
     margin: 5px 0;
   }
+
+  .seven h1 {
+    text-align: center;
+        font-size:30px; font-weight:300; color:#222; letter-spacing:1px;
+        text-transform: uppercase;
+    
+        display: grid;
+        grid-template-columns: 1fr max-content 1fr;
+        grid-template-rows: 27px 0;
+        grid-gap: 20px;
+        align-items: center;
+    }
+    
+    .seven h1:after,.seven h1:before {
+        content: " ";
+        display: block;
+        border-bottom: 1px solid #61BF09
+        ;
+        border-top: 1px solid #61BF09;
+        height: 5px;
+      background-color:#f8f8f8;
+    }
+
+    .twelve h1 {
+      font-size:26px; font-weight:700;  letter-spacing:1px; text-transform:uppercase; width:160px; text-align:center; margin:auto; white-space:nowrap; padding-bottom:13px;
+    }
+    .twelve h1:before {
+        background-color: #c50000;
+        content: '';
+        display: block;
+        height: 3px;
+        width: 75px;
+        margin-bottom: 5px;
+    }
+    .twelve h1:after {
+        background-color: #c50000;
+        content: '';
+        display: block;
+      position:absolute; right:0; bottom:0;
+        height: 3px;
+        width: 75px;
+        margin-bottom: 0.25em;
+    }
