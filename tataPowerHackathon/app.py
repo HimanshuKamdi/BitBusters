@@ -55,7 +55,7 @@ videos = [
         'views': 150
     }
 ]
-topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy"]
+topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy","EV Electric Vehicle","Solar Panels"]
 def get_avg_views_per_topic():
     scores=[]
     for i in range(10):
