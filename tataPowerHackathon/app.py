@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
-# from wordcloud import WordCloud
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
 import googleapiclient.discovery
@@ -232,19 +232,19 @@ def topic(topic_id):
     return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,topic_id=topic_id, search_query=srq)
 
 
-def gen_word_cloud(key,data):
-    # obj=data[key]
-    # comments=""
-    # if "items" in obj.keys():
-    #     for item in obj["items"]:
-    #         comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
 
-    # wordcloud = WordCloud(width = 400, height = 400, 
-    #             background_color ='white', 
-    #             stopwords = None, 
-    #             min_font_size = 10).generate(comments)
-    # image_path = "static/wordcloud.png"
-    # wordcloud.to_file(image_path)
+def gen_word_cloud(key,data):
+    obj=data[key]
+    comments=""
+    if "items" in obj.keys():
+        for item in obj["items"]:
+            comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+    wordcloud = WordCloud(width = 400, height = 400, 
+                background_color ='white', 
+                stopwords = None, 
+                min_font_size = 10).generate(comments)
+    image_path = "static/wordcloud.png"
+    wordcloud.to_file(image_path)
     pass
     
 video_title=""
