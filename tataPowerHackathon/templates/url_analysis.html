@@ -34,13 +34,34 @@
     <ul>
       {% for video in videos %} {% if video.get('title') and
       video.get('channel') %}
-      <li>Title: {{ video['title'] }} | User: {{ video['channel'] }}</li>
+      <div class="card">
+        <div class="card-body">
+          Title: {{ video['title'] }}
+        </div>
+      </div>
       {% endif %} {% endfor %}
     </ul>
     {% endfor %} 
     {% else %}
     <p>No data available</p>
     {% endif %}
+    
   </div>
 </div>
+<h2 style="text-align: center;">We Analyze Topics of Videos</h2>
+<div style="display: flex; justify-content: center;" id="topics-chart"></div>
+
+
+<script>
+  var plot_data1 = {{ graphJSON1 | safe }};
+  
+  var layout = { autosize: false, width: 600, height: 400,xaxis: {
+            automargin: true
+        },
+        yaxis: {
+            automargin: true
+        } };
+  Plotly.newPlot('topics-chart', plot_data1, layout);
+
+</script>
 {% endblock %}

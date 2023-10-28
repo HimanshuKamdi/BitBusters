@@ -245,7 +245,7 @@ def gen_word_cloud(key,data):
                 min_font_size = 10).generate(comments)
     image_path = "static/wordcloud.png"
     wordcloud.to_file(image_path)
-    pass
+    
     
 video_title=""
 
@@ -332,16 +332,31 @@ def get_commenter_comments(api_key, channel_id):
       comment_data = comment_response.json()
       return comment_data
 
+def get_topic(video_title):
+  search_params = {
+    'q': f'{video_title}',  # Your search query
+    'type': 'video',
+    'part': 'snippet',
+    'maxResults': 10,  # You can adjust this number as needed
+  }
+  search_response = youtube.search().list(**search_params).execute()
+  for search_result in search_response.get('items', []):
+    video_id = search_result['id']['videoId']
+    video_response = youtube.videos().list(part='snippet', id=video_id).execute()
+    video_tags = video_response['items'][0]['snippet']['tags'] if 'tags' in video_response['items'][0]['snippet'] else []
+    return video_tags
 @app.route('/url_analysis',methods=['GET', 'POST'])
 def url_analysis():
     search_query = request.form.get('search_query')
     res=None
     stats=None
+    graphJSON1=None
     if search_query is not None:
         data=get_video_stats(search_query)
         commentors=[]
         for i in range(min(5,len(data['items']))):
             commentors.append(data['items'][i]['snippet']['topLevelComment']['snippet']['authorChannelId']['value'])
+        
         
         res={x:[] for x in commentors}
         for comm in commentors:
@@ -350,10 +365,29 @@ def url_analysis():
                 vid_title=commdata['items'][i]['snippet']['title']
                 channel=commdata['items'][i]['snippet']['channelTitle']
                 res[comm].append({"title":vid_title,"channel":channel})
-
+        topics={}
+        for commt in res.keys():
+            for obj in res[commt]:
+                video_title=obj["title"]
+                for topic in get_topic(video_title):
+                    if topic not in topics.keys():
+                        topics[topic]=1
+                    else:
+                        topics[topic]+=1
         stats=get_video_info(search_query,API_KEY)
-    
-    return render_template('url_analysis.html',res=res,stats=stats)
+        df_tags=pd.Series(topics)
+        top_tags=df_tags[:min(len(df_tags),10)]
+
+        data1 = [
+            go.Bar(
+                y=top_tags,
+                x=top_tags.index
+            )
+        ]
+        graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
+
+
+    return render_template('url_analysis.html',res=res,stats=stats,graphJSON1=graphJSON1)
 
 if __name__ == '__main__':
     app.run(debug=True)
