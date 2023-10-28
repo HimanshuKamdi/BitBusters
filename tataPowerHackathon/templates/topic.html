@@ -12,7 +12,7 @@
             {% for video in (videos) %}
         <div class="card" style="width: 70rem; margin: 30px; display:flex; flex-direction:row">
             <div>
-            <img class="card-img-top" src="{{ video['img'] }}" alt="Card image cap">
+            <img class="card_img" src="{{ video['img'] }}" style="height:100%, aspect-ratio: 4 / 3;" alt="Card image cap">
             </div>
             <div class="card-body">
               <h5 class="card-title">{{ video['title'] }}</h5>
@@ -28,7 +28,7 @@
     </ul>
 </div>
 
-<h2 class="text-center mt-4">We Analyze Topics Over 100 vids...</h2>
+<h2 class="text-center mt-4">Popular Tags</h2>
 <div id="topic-chart" style="display: flex;justify-content: center;" class="text-center"></div>
 <div id="clickthru-chart" style="display: flex;justify-content: center;"  class="text-center"></div>
 <div id="like-chart" class="text-center"></div>
@@ -38,7 +38,7 @@
     Plotly.newPlot('topic-chart', plot_data1, layout);
 
     var plot_data2 = {{ graphJSON2 | safe }};
-    var layout = { title: 'Click Rate Per Video', autosize: false, width: 800, height: 400,xaxis: {
+    var layout = { title: 'Trending Topic Analysis', autosize: false, width: 800, height: 400,xaxis: {
             automargin: true
         },
         yaxis: {
