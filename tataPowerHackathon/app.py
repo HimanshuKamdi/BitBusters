@@ -12,8 +12,12 @@ import pickle
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
+import googleapiclient.discovery
+import requests
 app = Flask(__name__)
-
+API_KEY = "AIzaSyDN8fDz5RO83ESiCTu4cQXp8QrWfJJtycg"
+base_url = "https://www.googleapis.com/youtube/v3/"
+youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
 videos = [
     {
         'id': 1,
@@ -263,6 +267,86 @@ def video(topic_id,video_id):
   
     return render_template('video.html',graphJSON1=graphJSON1,title="Analytics for this Video")
 
+
+
+
+def get_video_stats(video_url):
+    video_id = video_url.split("?v=")[1]
+    endpoint = "commentThreads"
+
+    params = {
+        "key": API_KEY,
+        "part": "snippet",
+        "video_id":video_id,
+        "maxResults":20,
+    }
+
+    response = requests.get(base_url + endpoint, params=params)
+    data = response.json()
+    return data
+
+
+def get_video_info(video_url, api_key):
+    video_id = video_url.split("?v=")[1]
+    base_url = "https://www.googleapis.com/youtube/v3/"
+    endpoint = "videos"
+
+    params = {
+        "key": api_key,
+        "part": "snippet,statistics",
+        "id": video_id
+    }
+
+    response = requests.get(base_url + endpoint, params=params)
+    data = response.json()
+
+    # Extract and return the information
+    if 'items' in data and len(data['items']) > 0:
+        video_info = {
+            "title": data['items'][0]['snippet']['title'],
+            "description": data['items'][0]['snippet']['description'],
+            "statistics": data['items'][0]['statistics'],
+            "thumbnail_medium": data['items'][0]['snippet']['thumbnails']['medium']['url']
+        }
+        return video_info
+    else:
+        return None
+
+
+def get_commenter_comments(api_key, channel_id):
+      comment_params = {
+          "key": api_key,
+          "part": "snippet",
+          "channelId": channel_id,
+          "maxResults": 10
+      }
+      comment_endpoint = "search"
+      comment_response = requests.get(base_url + comment_endpoint, params=comment_params)
+      comment_data = comment_response.json()
+      return comment_data
+
+@app.route('/url_analysis',methods=['GET', 'POST'])
+def url_analysis():
+    search_query = request.form.get('search_query')
+    res=None
+    stats=None
+    if search_query is not None:
+        data=get_video_stats(search_query)
+        commentors=[]
+        for i in range(min(5,len(data['items']))):
+            commentors.append(data['items'][i]['snippet']['topLevelComment']['snippet']['authorChannelId']['value'])
+        
+        res={x:[] for x in commentors}
+        for comm in commentors:
+            commdata=get_commenter_comments(API_KEY,comm)
+            for i in range(min(5,len(commdata['items']))):
+                vid_title=commdata['items'][i]['snippet']['title']
+                channel=commdata['items'][i]['snippet']['channelTitle']
+                res[comm].append({"title":vid_title,"channel":channel})
+
+        stats=get_video_info(search_query,API_KEY)
+    
+    return render_template('url_analysis.html',res=res,stats=stats)
 
 if __name__ == '__main__':
     app.run(debug=True)

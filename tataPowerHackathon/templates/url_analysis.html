@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content_title %} Enter a URL for Analytics
+{%endblock %} {% block content %}
+<ul class="list-group">
+  <form method="post" class="form-inline my-2 my-lg-0">
+    <input
+      class="form-control mr-sm-2"
+      type="text"
+      name="search_query"
+      placeholder="Search"
+      value="{{ search_query }}"
+    />
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+      Search
+    </button>
+  </form>
+</ul>
+<div>
+  {% if stats.get('statistics') %}
+  <h2>Current View Count: {{ stats['statistics'].get('viewCount', 'N/A') }}</h2>
+  <h2>Current Like Count: {{ stats['statistics'].get('likeCount', 'N/A') }}</h2>
+  <h2>
+    Current Comment Count: {{ stats['statistics'].get('commentCount', 'N/A') }}
+  </h2>
+  <h2>Favorites: {{ stats['statistics'].get('favoriteCount', 'N/A') }}</h2>
+  {% else %}
+  <h2>No statistics available</h2>
+  {% endif %}
+</div>
+<h2>People Who have Commented on your Video have also Engaged with:</h2>
+<div>
+  <div>
+    {% if res is not none %} 
+    {% for channel, videos in res.items() %}
+    <ul>
+      {% for video in videos %} {% if video.get('title') and
+      video.get('channel') %}
+      <li>Title: {{ video['title'] }} | Channel: {{ video['channel'] }}</li>
+      {% endif %} {% endfor %}
+    </ul>
+    {% endfor %} 
+    {% else %}
+    <p>No data available</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

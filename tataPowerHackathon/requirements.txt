@@ -21,3 +21,4 @@ hyperopt
 Werkzeug==2.2.2
 scikit-learn==1.2.1
 wordcloud==1.9.2
+google-api-python-client
