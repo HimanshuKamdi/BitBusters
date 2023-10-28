@@ -267,9 +267,6 @@ def gen_word_cloud(key, data):
 
     return image_path
 
-<<<<<<< HEAD
-
-=======
     wordcloud = WordCloud(width = 400, height = 400, 
                 background_color ='white', 
                 stopwords = None, 
@@ -278,7 +275,6 @@ def gen_word_cloud(key, data):
     wordcloud.to_file(image_path)
     
 video_title=""
->>>>>>> bf175473bf27b9f87da25087b64cae7ef819c13a
 
 @app.route('/video/<int:topic_id>/<string:video_id>')
 def video(topic_id,video_id):
