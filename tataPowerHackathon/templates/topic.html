@@ -7,11 +7,7 @@
 
     {% block content %}
     <ul class="list-group">
-        <form method="post" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" name="search_query" placeholder="Search"
-                value="{{ search_query }}">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        
         <div class="container" style="display: flex; flex-wrap: wrap; ">
             {% for video in (videos) %}
         <div class="card" style="width: 70rem; margin: 30px; display:flex; flex-direction:row">
