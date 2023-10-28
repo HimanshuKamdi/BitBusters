@@ -226,20 +226,41 @@ def topic(topic_id):
     return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,topic_id=topic_id)
 
 
-def gen_word_cloud(key,data):
-    obj=data[key]
-    comments=""
+# def gen_word_cloud(key,data):
+#     obj=data[key]
+#     comments=""
+#     if "items" in obj.keys():
+#         for item in obj["items"]:
+#             comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+    
+#     wordcloud = WordCloud(width = 400, height = 400, 
+#                 background_color ='white', 
+#                 stopwords = None, 
+#                 min_font_size = 10).generate(comments)
+#     image_path = "static/wordcloud.png"
+#     wordcloud.to_file(image_path)
+    
+
+def gen_word_cloud(key, data):
+    obj = data[key]
+    comments = ""
     if "items" in obj.keys():
         for item in obj["items"]:
-            comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+            comments += item['snippet']['topLevelComment']['snippet']['textDisplay']
 
-    wordcloud = WordCloud(width = 400, height = 400, 
-                background_color ='white', 
-                stopwords = None, 
-                min_font_size = 10).generate(comments)
-    image_path = "static/wordcloud.png"
-    wordcloud.to_file(image_path)
-    
+    if not comments:
+       
+        image_path = "static/no_comments.png"
+    else:
+        wordcloud = WordCloud(width=400, height=400, 
+                              background_color='white', 
+                              stopwords=None, 
+                              min_font_size=10).generate(comments)
+        image_path = "static/wordcloud.png"
+        wordcloud.to_file(image_path)
+
+    return image_path
+
 
 
 @app.route('/video/<int:topic_id>/<string:video_id>')
