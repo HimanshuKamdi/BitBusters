@@ -15,7 +15,7 @@
   </form>
 </ul>
 <div>
-  {% if stats.get('statistics') %}
+  {% if stats is not none %}
   <h2>Current View Count: {{ stats['statistics'].get('viewCount', 'N/A') }}</h2>
   <h2>Current Like Count: {{ stats['statistics'].get('likeCount', 'N/A') }}</h2>
   <h2>
