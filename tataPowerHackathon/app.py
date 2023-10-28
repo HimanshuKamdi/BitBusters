@@ -179,7 +179,7 @@ def topic(topic_id):
         else:
             title=None
         if "description" in vid["items"][0]["snippet"].keys():
-            desc=vid["items"][0]["snippet"]["description"][:min(100,len(vid["items"][0]["snippet"]["description"]))]+"...."
+            desc=vid["items"][0]["snippet"]["description"][:min(180,len(vid["items"][0]["snippet"]["description"]))]+"...."
         else:
             desc=None
         if "thumbnails" in vid["items"][0]["snippet"].keys():
