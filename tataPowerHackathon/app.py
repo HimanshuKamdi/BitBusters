@@ -120,11 +120,13 @@ def find_best_match(input_query,topics):
     matched_topic = topics[max_index]
     return [max_score,max_index]
 
+search_query=""
 @app.route('/', methods=['GET', 'POST'])
 def home():
     views_scores=get_avg_views_per_topic()
     like_scores=get_avg_likes_per_topic()
     comment_scores=get_avg_comments_per_topic()
+    global search_query 
     search_query = request.form.get('search_query')
     print(search_query)
     small_topics=[x.lower() for x in topics]
@@ -158,11 +160,14 @@ def home():
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON3 = json.dumps(data3, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('home.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,graphJSON3=graphJSON3)
+    return render_template('home.html', videos=videos, graphJSON1=graphJSON1, graphJSON2=graphJSON2,graphJSON3=graphJSON3)
 
 
 @app.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
 def topic(topic_id):
+    global search_query
+    srq=search_query
+    global video_title
     top_few=[]
     with open(f'./data/Cache/{topic_id}.json', 'r') as f:
         data = json.load(f)
@@ -170,6 +175,7 @@ def topic(topic_id):
         id=vid["items"][0]["id"]
         if "title" in vid["items"][0]["snippet"].keys():
             title=vid["items"][0]["snippet"]["title"]
+            
         else:
             title=None
         if "description" in vid["items"][0]["snippet"].keys():
@@ -223,7 +229,7 @@ def topic(topic_id):
     ]
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(data2, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,topic_id=topic_id)
+    return render_template('topic.html', videos=videos, graphJSON1=graphJSON1,graphJSON2=graphJSON2,topic_id=topic_id, search_query=srq)
 
 
 # def gen_word_cloud(key,data):
@@ -261,7 +267,18 @@ def gen_word_cloud(key, data):
 
     return image_path
 
+<<<<<<< HEAD
 
+=======
+    wordcloud = WordCloud(width = 400, height = 400, 
+                background_color ='white', 
+                stopwords = None, 
+                min_font_size = 10).generate(comments)
+    image_path = "static/wordcloud.png"
+    wordcloud.to_file(image_path)
+    
+video_title=""
+>>>>>>> bf175473bf27b9f87da25087b64cae7ef819c13a
 
 @app.route('/video/<int:topic_id>/<string:video_id>')
 def video(topic_id,video_id):
@@ -286,7 +303,7 @@ def video(topic_id,video_id):
     
     graphJSON1 = json.dumps(data1, cls=plotly.utils.PlotlyJSONEncoder)
   
-    return render_template('video.html',graphJSON1=graphJSON1,title="Analytics for this Video")
+    return render_template('video.html',graphJSON1=graphJSON1,title=f"Analytics for {video_title}")
 
 
 

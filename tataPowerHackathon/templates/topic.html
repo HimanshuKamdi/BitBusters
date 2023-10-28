@@ -2,7 +2,7 @@
 
 <div class="success">
     {% block content_title %}
-    <p class="text-center mt-4 success">YouTube Video List</p>
+    <p class="text-center mt-4 success">Top Videos on "{{search_query}}"</p>
     {% endblock %}
 
     {% block content %}
@@ -10,8 +10,10 @@
         
         <div class="container" style="display: flex; flex-wrap: wrap; ">
             {% for video in (videos) %}
-        <div class="card" style="width: 18rem; margin: 30px;">
+        <div class="card" style="width: 70rem; margin: 30px; display:flex; flex-direction:row">
+            <div>
             <img class="card-img-top" src="{{ video['img'] }}" alt="Card image cap">
+            </div>
             <div class="card-body">
               <h5 class="card-title">{{ video['title'] }}</h5>
               <p class="card-text">{{ video['desc'] }}</p>
