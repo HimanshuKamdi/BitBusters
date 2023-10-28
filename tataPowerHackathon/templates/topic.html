@@ -2,20 +2,20 @@
 
 <div class="success">
     {% block content %}
-    <h2 class="text-center mt-4; font-size:50px">Popular Tags for "{{search_query}}"</h2>
+    <h1 class="one text-center mt-4 " style="font-size:50px; font-family: 'Roboto Slab', serif; padding:10px; margin-bottom:20px">Popular Tags for "{{search_query}}"</h1>
     <div style="display:flex; flex-direction:row; width=100%; justify-content:center">
-        <div id="topic-chart" style="display: flex;justify-content: center;" class="text-center"></div>
-    <div id="clickthru-chart" style="display: flex;justify-content: center;"  class="text-center"></div>
+        <div id="topic-chart" data-aos="zoom-in" style="display: flex;justify-content: center;" class="text-center"></div>
+    <div id="clickthru-chart" data-aos="zoom-in" style="display: flex;justify-content: center;"  class="text-center"></div>
     </div>
     <ul class="list-group" style="margin-top:80px">
         
         <div class="container" style="display: flex; flex-wrap: wrap; ">
-<h1 class="text-center mt-4 success" style="font-family: 'Nunito', sans-serif; font-weight:400">Top Videos on "{{search_query}}"</h1>
+<h1 class="text-center mt-4 success" style="font-family: 'Nunito', sans-serif; font-weight:700">Top Videos on "{{search_query}}"</h1>
 
             {% for video in (videos) %}
-        <div class="card" style="width: 70rem; margin: 30px; display:flex; flex-direction:row; border-radius:15px">
+        <div class="card" data-aos="fade-up-right" style="width: 70rem; margin: 30px; display:flex; flex-direction:row; border-radius:15px">
             <div>
-            <img class="card_img" src="{{ video['img'] }}" style="height:100%;border-radius:15px " alt="Card image cap">
+            <img class="card_img" src="{{ video['img'] }}" style="height:250px;border-radius:15px; aspect-ratio:16/9 " alt="Card image cap">
             </div>
             <div class="card-body">
               <h5 class="card-title">{{ video['title'] }}</h5>
