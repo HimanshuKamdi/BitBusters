@@ -159,3 +159,12 @@ h1 {
   background-color: #61BF09;
 }
 
+
+.bullet-list {
+    list-style-type: disc; 
+    margin-left: 20px; 
+  }
+  
+  .bullet-list li {
+    margin: 5px 0;
+  }
