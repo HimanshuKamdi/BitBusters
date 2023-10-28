@@ -15,7 +15,7 @@ import os
 import googleapiclient.discovery
 import requests
 app = Flask(__name__)
-API_KEY = "AIzaSyDN8fDz5RO83ESiCTu4cQXp8QrWfJJtycg"
+API_KEY = "AIzaSyAu7BNsqTyPyKuB-qAvDorbMvuyEvduG90"
 base_url = "https://www.googleapis.com/youtube/v3/"
 youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
 videos = [
