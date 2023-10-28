@@ -1,21 +1,29 @@
-{% extends "base.html" %} {% block content_title %} Welcome to the Home Page
-{%endblock %} {% block content %}
+{% extends "base.html" %}  {% block content %}
+ 
 <ul class="list-group">
-  <form method="post" class="form-inline my-2 my-lg-0">
-    <input
-      class="form-control mr-sm-2"
-      type="text"
-      name="search_query"
-      placeholder="Search"
-      value="{{ search_query }}"
-    />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-      Search
-    </button>
-  </form>
+  <div >
+    <div><img src="{{ url_for('static', filename='banner5.jpg')}}" alt="Background Pic" style="width:100%; height=100vh; "/></div>
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; z-index: 1; font-family: 'Abril Fatface', serif;
+    , serif; text-align:center; font-size:60px"><p>Welcome </p> <p>to </p> <p> YoutubeAlgoAnalyser</p></div>
+  </div>
+  <div style="width:100%; text-align:center; display: flex;  justify-content: center;">
+    <form method="post" class="form-inline my-2 my-lg-0" >
+      <input
+        class="form-control mr-sm-2 my-4 "
+        style="width: 500px;"
+        type="text"
+        name="search_query"
+        placeholder="Search"
+        value="{{ search_query }}"
+      />
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
+  </div>
 </ul>
 <!-- Add a container for the bar chart -->
-<div style="display: flex; flex-wrap: wrap; width: 90vw;">
+<div style="display: flex; flex-wrap: wrap; width: 90vw; flex-direction:column; align-items: center">
   <div id="views-chart"></div>
   <div id="likes-chart"  ></div>
   <div id="comments-chart"  ></div>

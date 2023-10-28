@@ -8,13 +8,16 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-blue text-white" id="navbar" style="background-color: rgb(37, 33, 165);">
+    <nav class="navbar navbar-expand-lg navbar-light text-white" id="navbar" style="background: linear-gradient(270deg, #C2E105, #40B30D); height: 80px">
             
        <a class="navbar-brand" href="#">
-            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" width="46" height="40">
+            <img src="{{url_for('static', filename='logo.png')}}" alt="logo" width="70" height="70">
         </a>
       
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -25,14 +28,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link " href="/" style="color:#ffffff;"><span class="fs-2"> Home </span><span class="sr-only">(current)</span></a>
+                    <a class="nav-link " href="/" style="color:#ffffff;"><span class="fs-1"> Home </span><span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             
         </div>
     </nav>
-    <div class="container">
-        <h1>{% block content_title %}{% endblock %}</h1>
+    <div class="main_container" style="max-width:100vw">
+        
         {% block content %}{% endblock %}
     </div>
 
