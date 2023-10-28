@@ -58,26 +58,26 @@ videos = [
 topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy","EV Electric Vehicle","Solar Panels"]
 def get_avg_views_per_topic():
     scores=[]
-    for i in range(10):
+    for i in range(len(topics)):
         with open(f"./data/Cache/{i}.json","r") as f:
             data=json.load(f)
 
         sum=0
-        for i in range(min(10,len(data))):
+        for i in range(min(len(topics),len(data))):
             data[i]["items"]
             sum+=int(data[i]["items"][0]["statistics"]["viewCount"])
 
-        scores.append(sum/10)
+        scores.append(sum/len(topics))
     return scores
 def get_avg_likes_per_topic():
     scores=[]
-    for i in range(10):
+    for i in range(len(topics)):
         with open(f"./data/Cache/{i}.json","r") as f:
             data=json.load(f)
 
         sum=0
         count=0
-        for i in range(min(10,len(data))):
+        for i in range(min(len(topics),len(data))):
             data[i]["items"]
             if "likeCount" in data[i]["items"][0]["statistics"].keys():
                 sum+=int(data[i]["items"][0]["statistics"]["likeCount"])
@@ -85,19 +85,19 @@ def get_avg_likes_per_topic():
         if count==0:
             scores.append(0)
         else:
-            scores.append(sum/10)
+            scores.append(sum/count)
 
     return scores
 
 def get_avg_comments_per_topic():
     scores=[]
-    for i in range(10):
+    for i in range(len(topics)):
         with open(f"./data/Cache/{i}.json","r") as f:
             data=json.load(f)
 
         sum=0
         count=0
-        for i in range(min(10,len(data))):
+        for i in range(min(len(topics),len(data))):
             data[i]["items"]
             if "commentCount" in data[i]["items"][0]["statistics"].keys():
                 sum+=int(data[i]["items"][0]["statistics"]["commentCount"])
@@ -105,7 +105,7 @@ def get_avg_comments_per_topic():
         if count==0:
             scores.append(0)
         else:
-            scores.append(sum/10)
+            scores.append(sum/len(topics))
     return scores
     
 def find_best_match(input_query,topics):
