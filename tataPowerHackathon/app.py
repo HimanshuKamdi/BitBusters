@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
-from wordcloud import WordCloud
+# from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
 import googleapiclient.discovery
@@ -55,7 +55,7 @@ videos = [
         'views': 150
     }
 ]
-topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy"]
+topics=["Renewable Energy","Sustainable Energy","Renewable and Sustainable Energy","Solar Energy","Wind Energy","Biogas Energy","Conservable Resources","Hydro Power","Clean Energy","Green Energy","EV Electric Vehicle","Solar Panels"]
 def get_avg_views_per_topic():
     scores=[]
     for i in range(10):
@@ -234,17 +234,17 @@ def topic(topic_id):
 
 
 def gen_word_cloud(key,data):
-    obj=data[key]
-    comments=""
-    if "items" in obj.keys():
-        for item in obj["items"]:
-            comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
-    wordcloud = WordCloud(width = 400, height = 400, 
-                background_color ='white', 
-                stopwords = None, 
-                min_font_size = 10).generate(comments)
-    image_path = "static/wordcloud.png"
-    wordcloud.to_file(image_path)
+    # obj=data[key]
+    # comments=""
+    # if "items" in obj.keys():
+    #     for item in obj["items"]:
+    #         comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+    # wordcloud = WordCloud(width = 400, height = 400, 
+    #             background_color ='white', 
+    #             stopwords = None, 
+    #             min_font_size = 10).generate(comments)
+    # image_path = "static/wordcloud.png"
+    # wordcloud.to_file(image_path)
     pass
     
 video_title=""
