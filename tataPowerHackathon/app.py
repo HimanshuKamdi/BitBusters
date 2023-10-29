@@ -9,13 +9,13 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
-# from wordcloud import WordCloud
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
 import googleapiclient.discovery
 import requests
 app = Flask(__name__)
-API_KEY = "AIzaSyBlH7Gxfh4HivHborRzImVSwzUSdUxmnEg"
+API_KEY = "AIzaSyCytkHMeWnLsob0ERcgg9VKrKZFvylmpL0"
 base_url = "https://www.googleapis.com/youtube/v3/"
 youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
 
@@ -198,17 +198,17 @@ def topic(topic_id):
 
 
 def gen_word_cloud(key,data):
-    # obj=data[key]
-    # comments=""
-    # if "items" in obj.keys():
-    #     for item in obj["items"]:
-    #         comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
-    # wordcloud = WordCloud(width = 400, height = 400, 
-    #             background_color ='white', 
-                # stopwords = None, 
-    #             min_font_size = 10).generate(comments)
-    # image_path = "static/wordcloud.png"
-    # wordcloud.to_file(image_path)
+    obj=data[key]
+    comments=""
+    if "items" in obj.keys():
+        for item in obj["items"]:
+            comments+=((item['snippet']['topLevelComment']['snippet']['textDisplay']))
+    wordcloud = WordCloud(width = 400, height = 400, 
+                background_color ='white', 
+                stopwords = None, 
+                min_font_size = 10).generate(comments)
+    image_path = "static/wordcloud.png"
+    wordcloud.to_file(image_path)
     pass
     
     
