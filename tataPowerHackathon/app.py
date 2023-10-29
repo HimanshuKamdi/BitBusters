@@ -15,7 +15,6 @@ import os
 import googleapiclient.discovery
 import requests
 app = Flask(__name__)
-port = int(os.environ.get("PORT", 5000))
 API_KEY = "AIzaSyCytkHMeWnLsob0ERcgg9VKrKZFvylmpL0"
 base_url = "https://www.googleapis.com/youtube/v3/"
 youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
@@ -358,4 +357,4 @@ def url_analysis():
     return render_template('url_analysis.html',res=res,stats=stats,graphJSON1=graphJSON1)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=14365)
